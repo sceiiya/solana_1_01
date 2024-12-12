@@ -5,7 +5,7 @@ import "dotenv/config"
 let my_pubkey: string = ''
 //! change the key to make it work a fail safe
 // ? just make sure that you enter `bun esrun check-bal.ts (public key)`
-my_pubkey = process.env.MY_PUB_KEYA || ''
+my_pubkey = process.env.MY_PUB_KEYa || ''
 
 
 // if(!publicKey) throw new Error("There is no pubkey in here")

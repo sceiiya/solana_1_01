@@ -36,7 +36,8 @@ import {
 const connection = new Connection(clusterApiUrl("devnet"));
 
 // ? this is from the document
-  const address = new PublicKey("CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN");
+  const address = new PublicKey("CenYq6bDRB7p73EjsPEpiYN7uveyPUTdXkDkgUduboaN"); 
+  // console.log('add iz', address)
 // ? this is the one i created
 // const address = new PublicKey("FtpPcmkfmDcjf4QNT3fFrFEfRC13UjqFL8fzsShK2uYh");
 
