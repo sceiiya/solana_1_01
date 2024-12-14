@@ -1,5 +1,5 @@
-import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import "dotenv/config"
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 
 // const my_pubkey : string = process.env.PUBLIC_KEY || '' 
 let my_pubkey: string = ''
@@ -17,7 +17,11 @@ if (!my_pubkey) {
 
 const publicKey = new PublicKey(my_pubkey)
 
-const connection = new Connection("https://api.devnet.solana.com", "confirmed")
+//! local development
+const connection = new Connection("http://127.0.0.1:8899", "confirmed")
+
+//! testnet
+// const connection = new Connection("https://api.devnet.solana.com", "confirmed")
 
 const balLamports = await connection.getBalance(publicKey)
 
