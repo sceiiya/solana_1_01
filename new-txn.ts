@@ -202,88 +202,7 @@ async function txn1() {
 
 
 
-// function txn3 (){
-
-// // Read the keypair from the file
-// const keypairPath = path.join(__dirname, 'solana-keypair.json');
-// const keypairData = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
-
-// // Recreate the Keypair object from the secretKey array
-// const secretKey = Uint8Array.from(keypairData.secretKey);
-// const loadedKeypair = Keypair.fromSecretKey(secretKey);
-
-// // Create connection to Solana cluster (in this case, devnet)
-// const connection = new Connection("http://127.0.0.1:8899", "confirmed");
-
-// // Sender public key (your wallet's public key)
-// const sender = loadedKeypair.publicKey;
-// const senderKeypair = loadedKeypair;
-
-// // Example JSON data to store
-// const jsonData = {
-//   name: "John Doe",
-//   age: 30,
-//   email: "johndoe@example.com"
-// };
-
-// // Convert the JSON object to a string and then to a buffer
-// const jsonString = JSON.stringify(jsonData);
-// const bufferData = Buffer.from(jsonString, 'utf-8');
-
-// // 1. Create a new account (this will be the account where data is stored)
-// const createAccount = async () => {
-//   // Generate a new keypair for the account where data will be stored
-//   const newAccount = Keypair.generate();
-
-//   // Calculate the minimum balance needed for the new account to be rent-exempt
-//   const lamports = await connection.getMinimumBalanceForRentExemption(bufferData.length);
-
-//   // Create the transaction to create a new account and transfer rent-exempt lamports
-//   const transaction = new Transaction().add(
-//     SystemProgram.createAccount({
-//       fromPubkey: sender,
-//       newAccountPubkey: newAccount.publicKey,
-//       lamports: lamports,
-//       space: bufferData.length,
-//       programId: SystemProgram.programId,
-//     })
-//   );
-
-//   // Sign and send the transaction
-//   const signature = await sendAndConfirmTransaction(connection, transaction, [senderKeypair, newAccount]);
-
-//   console.log('Account created with signature:', signature);
-
-//   // Store the JSON data in the account (write to account data)
-//   await storeDataInAccount(newAccount.publicKey, bufferData);
-// };
-
-// // 2. Store the JSON data in the new account
-// const storeDataInAccount = async (accountPubkey: PublicKey, bufferData: Buffer) => {
-//   // Create the instruction to write data to the account
-//   const transaction = new Transaction().add(
-//     SystemProgram.write({
-//       programId: SystemProgram.programId,
-//       data: bufferData,
-//       fromPubkey: sender,
-//       toPubkey: accountPubkey,
-//     })
-//   );
-
-//   // Send and confirm the transaction
-//   const signature = await sendAndConfirmTransaction(connection, transaction, [senderKeypair]);
-
-//   console.log('Data stored in account with signature:', signature);
-// };
-
-// // Call the function to create the account and store data
-// createAccount().catch(err => console.error('Error:', err));
-
-// }
-
-// txn3()
-
-function tnx4() {
+function txn3 (){
 
 // Read the keypair from the file
 const keypairPath = path.join(__dirname, 'solana-keypair.json');
@@ -344,10 +263,10 @@ const storeDataInAccount = async (accountPubkey: PublicKey, bufferData: Buffer) 
   // Create the instruction to write data to the account
   const transaction = new Transaction().add(
     SystemProgram.write({
+      programId: SystemProgram.programId,
+      data: bufferData,
       fromPubkey: sender,
       toPubkey: accountPubkey,
-      data: bufferData,
-      programId: SystemProgram.programId, // using SystemProgram for data write
     })
   );
 
@@ -362,4 +281,85 @@ createAccount().catch(err => console.error('Error:', err));
 
 }
 
-tnx4()
+txn3()
+
+function tnx4() {
+
+// Read the keypair from the file
+const keypairPath = path.join(__dirname, 'solana-keypair.json');
+const keypairData = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
+
+// Recreate the Keypair object from the secretKey array
+const secretKey = Uint8Array.from(keypairData.secretKey);
+const loadedKeypair = Keypair.fromSecretKey(secretKey);
+
+// Create connection to Solana cluster (in this case, devnet)
+const connection = new Connection("http://127.0.0.1:8899", "confirmed");
+
+// Sender public key (your wallet's public key)
+const sender = loadedKeypair.publicKey;
+const senderKeypair = loadedKeypair;
+
+// Example JSON data to store
+const jsonData = {
+  name: "John Doe",
+  age: 30,
+  email: "johndoe@example.com"
+};
+
+// Convert the JSON object to a string and then to a buffer
+const jsonString = JSON.stringify(jsonData);
+const bufferData = Buffer.from(jsonString, 'utf-8');
+
+// 1. Create a new account (this will be the account where data is stored)
+const createAccount = async () => {
+  // Generate a new keypair for the account where data will be stored
+  const newAccount = Keypair.generate();
+
+  // Calculate the minimum balance needed for the new account to be rent-exempt
+  const lamports = await connection.getMinimumBalanceForRentExemption(bufferData.length);
+
+  // Create the transaction to create a new account and transfer rent-exempt lamports
+  const transaction = new Transaction().add(
+    SystemProgram.createAccount({
+      fromPubkey: sender,
+      newAccountPubkey: newAccount.publicKey,
+      lamports: lamports,
+      space: bufferData.length,
+      programId: SystemProgram.programId,
+    })
+  );
+
+  // Sign and send the transaction
+  const signature = await sendAndConfirmTransaction(connection, transaction, [senderKeypair, newAccount]);
+
+  console.log('Account created with signature:', signature);
+
+  // Store the JSON data in the account (write to account data)
+  await storeDataInAccount(newAccount.publicKey, bufferData);
+};
+
+// 2. Store the JSON data in the new account
+const storeDataInAccount = async (accountPubkey: PublicKey, bufferData: Buffer) => {
+  // Create the instruction to write data to the account
+  // const transaction = new Transaction().add(
+  //   SystemProgram.write({
+  //     fromPubkey: sender,
+  //     toPubkey: accountPubkey,
+  //     data: bufferData,
+  //     programId: SystemProgram.programId, // using SystemProgram for data write
+  //   })
+  // );
+
+  // Send and confirm the transaction
+  const signature = await sendAndConfirmTransaction(connection, transaction, [senderKeypair]);
+
+  console.log('Data stored in account with signature:', signature);
+};
+
+// Call the function to create the account and store data
+createAccount().catch(err => console.error('Error:', err));
+
+}
+
+// tnx4()
